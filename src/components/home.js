@@ -38,29 +38,32 @@ const Home = () => {
   return (
     <div>
       <center>
-        <p>Pilih Mana</p>
+        <p id="judul">The Choices</p>
         <table>
           <td>
-            <li>
+          
               <button class="button-glitch" role="button">
                 A
               </button>
-            </li>
+          
           </td>
           <td>
-            <li>
-              <button class="button-glitch" role="button">
+          
+              <button class="button-glitch2" role="button">
                 B
               </button>
-            </li>
+           
           </td>
         </table>
+        
         <div class="progress-bar-container">
-      <div class="progress-bar" id="progressBarPlayer1" style={{width: 55}}></div>
-      <div class="progress-bar" id="progressBarPlayer2" style={{width: 45}}></div>
+      <div class="progress-bar1" id="progressBarPlayer1" style={{width: "50%"}}></div>
+      <div class="progress-bar2" id="progressBarPlayer2" style={{width: "50%"}}></div>
     </div>
       </center>
+      
     </div>
+    
   );
 };
 
