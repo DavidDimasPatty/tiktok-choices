@@ -1,31 +1,50 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./style/home.css";
+
 const Home = () => {
   const [option1, setOption1] = useState([]);
   const [option2, setOption2] = useState([]);
-  const [option1Total, setOption1Total] = useState(0);
-  const [option2Total, setOption2Total] = useState(0);
+  var [option1Total, setOption1Total] = useState(0);
+  var [option2Total, setOption2Total] = useState(0);
+  const [displayOption1,setDisplayOption1]=useState("");
+  const [displayOption2,setDisplayOption2]=useState("");
+  const[index,setIndex]=useState(0);
 
   const getAllQuiz = async () => {
     await axios
       .get("http://localhost:5000/api/getAll")
       .then((result) => {
-         for(var i=0;i<result.data.length;i++){
+          console.log(result.data)
+        for(var i=0;i<result.data.length;i++){
           option1.push(result.data[i]["option1"])
           option2.push(result.data[i]["option2"])
         }
+        setDisplayOption1(option1[index]);
+        setDisplayOption2(option2[index]);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    getAllQuiz();
+  getAllQuiz();
+  useEffect( async() => {
+    var batas=5;
+        for(var i=batas;i>=0;i--){  
+          if(i==0){
+            setIndex(index=>index+1); 
+            setDisplayOption1(option1[index]);
+            setDisplayOption2(option2[index]);
+            console.log(index);
+            i=batas;
+        }
+          document.getElementById("timer").innerHTML=i;
+          await delay(1000);
+       
+        }
   }, []);
 
-
+  ///////////Progress Bar
   function updateProgressBar(option, player) {
     const progressBarPlayer1 = document.getElementById("progressBarPlayer1");
     const progressBarPlayer2 = document.getElementById("progressBarPlayer2");
@@ -37,6 +56,14 @@ const Home = () => {
     progressBarPlayer1.style.width = progressRatioPlayer1 * 100 + "%";
     progressBarPlayer2.style.width = progressRatioPlayer2 * 100 + "%";
   }
+  //////////////////////
+
+  //////////////////Countdown
+    const delay = ms => new Promise(
+      resolve => setTimeout(resolve, ms)
+    );
+
+    //////////////////////
 
   return (
     <div>
@@ -45,12 +72,12 @@ const Home = () => {
         <table>
           <td>
             <button class="button-glitch" role="button">
-              <span>A.{option1[0]}</span>
+              <span>A.{displayOption1}</span>
             </button>
           </td>
           <td>
             <button class="button-glitch2" role="button">
-            <span> B.{option2[0]} </span>
+            <span> B.{displayOption2} </span>
             </button>
           </td>
         </table>
@@ -88,6 +115,8 @@ const Home = () => {
             style={{ width: "50%" }}
           ></div>
         </div>
+
+        <div id="timer"></div>
       </center>
     </div>
   );
