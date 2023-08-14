@@ -12,8 +12,8 @@ app.use(bp.json())
 app.use(bp.urlencoded({extended:true}));
 
 app.get('/api/getAll',async function(req,res) {
-  await db.getAllQuestion.then(result=>{
-    res.send(result.data)
+  await db.getAllQuestion().then(result=>{
+    res.send(result)
   })
 })
 
