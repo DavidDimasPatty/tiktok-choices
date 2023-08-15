@@ -48,7 +48,7 @@ const Home = () => {
 
   //////////////////Countdown
   const countDown= async()=>{
-    var batas=3;
+    var batas=5;
     var counter=0;
         for(var i=batas;i>=0;i--){  
           if(i==0){
@@ -73,6 +73,7 @@ const Home = () => {
 
   return (
     <div>
+
       <center>
         <p id="judul">The Choices</p>
         <table>
