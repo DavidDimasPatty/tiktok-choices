@@ -9,7 +9,6 @@ const Home = () => {
   var [option2Total, setOption2Total] = useState(0);
   const [displayOption1,setDisplayOption1]=useState("");
   const [displayOption2,setDisplayOption2]=useState("");
-  const[index,setIndex]=useState(0);
 
   const getAllQuiz = async () => {
     await axios
@@ -20,28 +19,17 @@ const Home = () => {
           option1.push(result.data[i]["option1"])
           option2.push(result.data[i]["option2"])
         }
-        setDisplayOption1(option1[index]);
-        setDisplayOption2(option2[index]);
+        setDisplayOption1(option1[0]);
+        setDisplayOption2(option2[0]);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  getAllQuiz();
-  useEffect( async() => {
-    var batas=5;
-        for(var i=batas;i>=0;i--){  
-          if(i==0){
-            setIndex(index=>index+1); 
-            setDisplayOption1(option1[index]);
-            setDisplayOption2(option2[index]);
-            console.log(index);
-            i=batas;
-        }
-          document.getElementById("timer").innerHTML=i;
-          await delay(1000);
-       
-        }
+
+  useEffect(() => {
+    getAllQuiz();
+    countDown();
   }, []);
 
   ///////////Progress Bar
@@ -59,7 +47,25 @@ const Home = () => {
   //////////////////////
 
   //////////////////Countdown
-    const delay = ms => new Promise(
+  const countDown= async()=>{
+    var batas=3;
+    var counter=0;
+        for(var i=batas;i>=0;i--){  
+          if(i==0){
+            i=batas;
+            counter++;
+            if(counter>=option1.length){
+              counter=0;
+            }
+            setDisplayOption1(option1[counter]);
+            setDisplayOption2(option2[counter]);
+          }
+          document.getElementById("timer").innerHTML=i;
+          await delay(1000);
+        }
+  }
+
+  const delay = ms => new Promise(
       resolve => setTimeout(resolve, ms)
     );
 
@@ -86,7 +92,7 @@ const Home = () => {
           <div
             class="progress-bar1"
             id="progressBarPlayer1"
-            style={{ width: "50%" }}
+            style={{ width: "20%" }}
           ></div>
 
           <center>
@@ -112,7 +118,7 @@ const Home = () => {
           <div
             class="progress-bar2"
             id="progressBarPlayer2"
-            style={{ width: "50%" }}
+            style={{ width: "80%" }}
           ></div>
         </div>
 
