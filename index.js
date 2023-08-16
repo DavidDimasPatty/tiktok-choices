@@ -5,11 +5,13 @@ const path=require('path');
 const app= express();
 const PORT= 5000
 const db=require("./db")
-
+const tiktok = require('./tiktok');
 db.connect()
+tiktok.connectTikTok()
 app.use(cors())
 app.use(bp.json())
 app.use(bp.urlencoded({extended:true}));
+
 
 app.get('/api/getAll',async function(req,res) {
   await db.getAllQuestion().then(result=>{
@@ -24,3 +26,5 @@ app.get('*', function(req, res) {
 });
 
 app.listen(PORT,()=>console.log(`Server running on port ${PORT}`))
+
+

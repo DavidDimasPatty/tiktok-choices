@@ -48,7 +48,7 @@ const Home = () => {
 
   //////////////////Countdown
   const countDown= async()=>{
-    var batas=5;
+    var batas=120;
     var counter=0;
         for(var i=batas;i>=0;i--){  
           if(i==0){
@@ -76,13 +76,13 @@ const Home = () => {
 
       <center>
         <p id="judul">The Choices</p>
-        <table>
-          <td>
+        <table id="tabel">
+          <td id="kolom1">
             <button class="button-glitch" role="button">
               <span>A.{displayOption1}</span>
             </button>
           </td>
-          <td>
+          <td  id="kolom2">
             <button class="button-glitch2" role="button">
             <span> B.{displayOption2} </span>
             </button>

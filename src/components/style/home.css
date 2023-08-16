@@ -504,7 +504,6 @@ a img.icon {
 
 .fire-bottom .main-fire {
   position: absolute;
-
   background-color: #ff7800;
   transform: scaleX(0.8) rotate(45deg);
   border-radius: 0 40% 100% 40%;
@@ -532,40 +531,59 @@ span{
   color: white;
   font-family: 'Righteous', serif;
   font-size: 20px; 
-  text-shadow: .03em .03em 0 hsla(230,40%,50%,1);
+  text-shadow: .10em .13em 0 hsla(230,40%,50%,1);
   -webkit-animation: flip-horizontal-bottom 1s cubic-bezier(0.455, 0.030, 0.515, 0.955) both infinite;
   animation: flip-horizontal-bottom 1s cubic-bezier(0.455, 0.030, 0.515, 0.955) both infinite;
   }
   @-webkit-keyframes flip-horizontal-bottom {
     0% {
-      -webkit-transform: rotateY(0);
-              transform: rotateY(0);
-    }
-   50% {
       -webkit-transform: rotateY(-90deg);
               transform: rotateY(-90deg);
     }
-
-    100% {
+   50% {
       -webkit-transform: rotateY(0);
               transform: rotateY(0);
+    }
+
+    100% {
+      -webkit-transform: rotateY(-90deg);
+              transform: rotateY(-90deg);
     }
 
   }
   @keyframes flip-horizontal-bottom {
     0% {
-      -webkit-transform: rotateY(0);
-              transform: rotateY(0);
-    }
-    50% {
       -webkit-transform: rotateY(-90deg);
               transform: rotateY(-90deg);
     }
-
-    100% {
+   50% {
       -webkit-transform: rotateY(0);
               transform: rotateY(0);
     }
+
+    100% {
+      -webkit-transform: rotateY(-90deg);
+              transform: rotateY(-90deg);
+    }
   }
   
-  
+  #tabel{
+    position:relative;
+    height: 100px;
+    width: 100%;
+    display: inline-block;
+    align-items: center;
+  }
+
+  #kolom1{
+    height: 100px;
+    position: absolute;
+    right: 50%;
+    margin: auto;
+  }
+
+  #kolom2{
+    height: 100px;
+    left: 50%;
+    position: absolute;
+  }
