@@ -1,7 +1,10 @@
 require('dotenv').config()
 const { WebcastPushConnection } = require('tiktok-live-connector');
 
-function connectTikTok() {
+class ConnectionTiktok{
+static komen;
+connectTikTok() {
+    console.log(process.env.USERNAME_LIVE)
     let tiktokLiveConnection = new WebcastPushConnection(process.env.USERNAME_LIVE);
     // Connect to the chat (await can be used as well)
     tiktokLiveConnection.connect().then(state => {
@@ -12,6 +15,7 @@ function connectTikTok() {
 
     tiktokLiveConnection.on('chat', data => {
         console.log(`${data.uniqueId} (userId:${data.userId}) writes: ${data.comment}`);
+        this.komen=data.comment
     })
     
     // And here we receive gifts sent to the streamer
@@ -20,8 +24,8 @@ function connectTikTok() {
     })    
 }
 
-
+}
 
 module.exports={
-connectTikTok:connectTikTok
+    ConnectionTiktok:ConnectionTiktok
 }

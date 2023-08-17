@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./style/home.css";
+import io from 'socket.io-client';
 
 const Home = () => {
   const [option1, setOption1] = useState([]);
@@ -9,6 +10,8 @@ const Home = () => {
   var [option2Total, setOption2Total] = useState(0);
   const [displayOption1,setDisplayOption1]=useState("");
   const [displayOption2,setDisplayOption2]=useState("");
+
+  const socket = io.connect('http://localhost:5000');
 
   const getAllQuiz = async () => {
     await axios
@@ -27,7 +30,13 @@ const Home = () => {
       });
   };
 
+  
+
   useEffect(() => {
+    socket.on('message', (data) => {
+      console.log(data);
+    });
+
     getAllQuiz();
     countDown();
   }, []);
