@@ -14,7 +14,8 @@ connectTikTok() {
     })
 
     tiktokLiveConnection.on('chat', data => {
-        console.log(`${data.uniqueId} (userId:${data.userId}) writes: ${data.comment}`);
+        // console.log(`${data.uniqueId} (userId:${data.userId}) writes: ${data.comment}`);
+        console.log(`${data.comment}`);
         this.komen=data.comment
     })
     

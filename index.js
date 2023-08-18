@@ -23,9 +23,12 @@ io.on('connection',  async (socket) => {
   const conn= new ConnectionTiktok();
   conn.connectTikTok();
   while (true) {
-  await new Promise(resolve => setTimeout(resolve, 5000));
-  console.log(conn.komen);
-  io.emit('message', { data: conn.komen }); 
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  // if (conn.komen=="a"||conn.komen=="A"||conn.komen=="b"||conn.komen=="B"){
+    // console.log(conn.komen);
+    io.emit('message', { data: conn.komen }); 
+  // }
+
   }
 });
 
