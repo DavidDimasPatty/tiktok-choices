@@ -6,12 +6,12 @@ import io from "socket.io-client";
 const Home = () => {
   const [option1, setOption1] = useState([]);
   const [option2, setOption2] = useState([]);
-  var [option1Total, setOption1Total] = useState(0);
-  var [option2Total, setOption2Total] = useState(0);
+  const [option1Total, setOption1Total] = useState(0);
+  const [option2Total, setOption2Total] = useState(0);
   const [displayOption1, setDisplayOption1] = useState("");
   const [displayOption2, setDisplayOption2] = useState("");
-  const [option1Ratio,setOption1Ratio]= useState(0);
-  const [option2Ratio,setOption2Ratio]= useState(0);
+  const [option1Ratio,setOption1Ratio]= useState(50);
+  const [option2Ratio,setOption2Ratio]= useState(50);
 
   const socket = io.connect("http://localhost:5000");
 
@@ -34,7 +34,7 @@ const Home = () => {
 
   useEffect(() => {
     socket.on("message", (data) => {
-      console.log(data)
+      console.log(data.data)
          // if (data == "a" || data == "A") {
       //   setOption1Total((option1Total) => option1Total + 1);
       //   updateProgressBar();
@@ -43,33 +43,35 @@ const Home = () => {
       //   setOption2Total((option2Total) => option2Total + 1);
       //   updateProgressBar();
       // }
-      if (String(data.data).includes("bang")) {
+      if (String(data.data).includes("A")||String(data.data).includes("a")) {
         setOption1Total((option1Total) => option1Total + 1);
         updateProgressBar();
         console.log(data);
       }
-      if (String(data.data).toString().includes("bg")) {
+      if (String(data.data).toString().includes("B")||String(data.data).includes("b")) {
         setOption2Total((option2Total) => option2Total + 1);
         updateProgressBar();
       }
     });
 
+    function updateProgressBar() {
+      // const progressBarPlayer1 = document.getElementById("progressBarPlayer1");
+      // const progressBarPlayer2 = document.getElementById("progressBarPlayer2");
+      var totalSelectedOptions = option1Total + option2Total;
+  
+      const progressRatioPlayer1 = option1Total / totalSelectedOptions;
+      const progressRatioPlayer2 = option2Total / totalSelectedOptions;
+  
+      setOption1Ratio(progressRatioPlayer1 * 100)
+      setOption2Ratio( progressRatioPlayer2 * 100)
+    }
+    
     getAllQuiz();
     countDown();
   }, []);
 
   ///////////Progress Bar
-  function updateProgressBar() {
-    const progressBarPlayer1 = document.getElementById("progressBarPlayer1");
-    const progressBarPlayer2 = document.getElementById("progressBarPlayer2");
-    var totalSelectedOptions = option1Total + option2Total;
-
-    const progressRatioPlayer1 = option1Total / totalSelectedOptions;
-    const progressRatioPlayer2 = option2Total / totalSelectedOptions;
-
-    setOption1Ratio(progressRatioPlayer1 * 100)
-    setOption2Ratio( progressRatioPlayer2 * 100)
-  }
+ 
   //////////////////////
 
   //////////////////Countdown

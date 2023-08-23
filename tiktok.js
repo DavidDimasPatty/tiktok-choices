@@ -17,6 +17,7 @@ connectTikTok() {
         // console.log(`${data.uniqueId} (userId:${data.userId}) writes: ${data.comment}`);
         console.log(`${data.comment}`);
         this.komen=data.comment
+        
     })
     
     // And here we receive gifts sent to the streamer
