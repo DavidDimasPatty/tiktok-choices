@@ -85,6 +85,8 @@ const Home = () => {
         }
         setDisplayOption1(option1[counter]);
         setDisplayOption2(option2[counter]);
+        setOption1Ratio(50);
+        setOption2Ratio(50);
       }
       document.getElementById("timer").innerHTML = i;
       await delay(1000);
