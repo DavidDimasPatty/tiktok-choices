@@ -32,11 +32,12 @@ const Home = () => {
   };
 
   useEffect(() => {
+    getAllQuiz();
+    countDown();
     const socket = io.connect("http://localhost:5000");
     socket.on("message", (data) => {
       if (String(data.data).includes("A") || String(data.data).includes("a")) {
         setOption1Total((option1Total) => option1Total + 1);
-        updateProgressBar();
         console.log("A")
         console.log(data.data);
       }
@@ -45,26 +46,28 @@ const Home = () => {
         String(data.data).includes("b")
       ) {
         setOption2Total((option2Total) => option2Total + 1);
-        updateProgressBar();
         console.log("B")
         console.log(data.data);
       }
     });
-
-    getAllQuiz();
-    countDown();
   }, []);
 
-  ///////////Progress Bar
-  function updateProgressBar() {
+  useEffect(() => {
+    // Menghitung rasio
     var totalSelectedOptions = option1Total + option2Total;
+    const progressRatioPlayer1 = (option1Total / totalSelectedOptions) * 100;
+    const progressRatioPlayer2 = (option2Total / totalSelectedOptions) * 100;
 
-    const progressRatioPlayer1 = option1Total / totalSelectedOptions;
-    const progressRatioPlayer2 = option2Total / totalSelectedOptions;
+    // Memperbarui state rasio
+    setOption1Ratio(progressRatioPlayer1);
+    setOption2Ratio(progressRatioPlayer2);
+  }, [option1Total, option2Total]);
 
-    setOption1Ratio(progressRatioPlayer1 * 100);
-    setOption2Ratio(progressRatioPlayer2 * 100);
-  }
+  useEffect(() => {
+    // Memperbarui tampilan progress bar secara dinamis setelah perubahan state
+    document.getElementById("progressBarPlayer1").style.width = `${option1Ratio}%`;
+    document.getElementById("progressBarPlayer2").style.width = `${option2Ratio}%`;
+  }, [option1Ratio, option2Ratio]);
 
 
   //////////////////////
