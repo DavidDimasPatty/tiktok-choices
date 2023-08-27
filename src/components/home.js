@@ -10,10 +10,9 @@ const Home = () => {
   const [option2Total, setOption2Total] = useState(0);
   const [displayOption1, setDisplayOption1] = useState("");
   const [displayOption2, setDisplayOption2] = useState("");
-  const [option1Ratio,setOption1Ratio]= useState(50);
-  const [option2Ratio,setOption2Ratio]= useState(50);
+  const [option1Ratio, setOption1Ratio] = useState(50);
+  const [option2Ratio, setOption2Ratio] = useState(50);
 
-  const socket = io.connect("http://localhost:5000");
 
   const getAllQuiz = async () => {
     await axios
@@ -33,45 +32,41 @@ const Home = () => {
   };
 
   useEffect(() => {
+    const socket = io.connect("http://localhost:5000");
     socket.on("message", (data) => {
-      console.log(data.data)
-         // if (data == "a" || data == "A") {
-      //   setOption1Total((option1Total) => option1Total + 1);
-      //   updateProgressBar();
-      // }
-      // if (data == "b" || data == "B") {
-      //   setOption2Total((option2Total) => option2Total + 1);
-      //   updateProgressBar();
-      // }
-      if (String(data.data).includes("A")||String(data.data).includes("a")) {
+      if (String(data.data).includes("A") || String(data.data).includes("a")) {
         setOption1Total((option1Total) => option1Total + 1);
         updateProgressBar();
-        console.log(data);
+        console.log("A")
+        console.log(data.data);
       }
-      if (String(data.data).toString().includes("B")||String(data.data).includes("b")) {
+      if (
+        String(data.data).toString().includes("B") ||
+        String(data.data).includes("b")
+      ) {
         setOption2Total((option2Total) => option2Total + 1);
         updateProgressBar();
+        console.log("B")
+        console.log(data.data);
       }
     });
 
-    function updateProgressBar() {
-      // const progressBarPlayer1 = document.getElementById("progressBarPlayer1");
-      // const progressBarPlayer2 = document.getElementById("progressBarPlayer2");
-      var totalSelectedOptions = option1Total + option2Total;
-  
-      const progressRatioPlayer1 = option1Total / totalSelectedOptions;
-      const progressRatioPlayer2 = option2Total / totalSelectedOptions;
-  
-      setOption1Ratio(progressRatioPlayer1 * 100)
-      setOption2Ratio( progressRatioPlayer2 * 100)
-    }
-    
     getAllQuiz();
     countDown();
   }, []);
 
   ///////////Progress Bar
- 
+  function updateProgressBar() {
+    var totalSelectedOptions = option1Total + option2Total;
+
+    const progressRatioPlayer1 = option1Total / totalSelectedOptions;
+    const progressRatioPlayer2 = option2Total / totalSelectedOptions;
+
+    setOption1Ratio(progressRatioPlayer1 * 100);
+    setOption2Ratio(progressRatioPlayer2 * 100);
+  }
+
+
   //////////////////////
 
   //////////////////Countdown
@@ -118,7 +113,7 @@ const Home = () => {
           <div
             class="progress-bar1"
             id="progressBarPlayer1"
-            style={{ width: ""+option1Ratio+"%" }}
+            style={{ width: "" + option1Ratio + "%" }}
           ></div>
 
           <center>
@@ -144,7 +139,7 @@ const Home = () => {
           <div
             class="progress-bar2"
             id="progressBarPlayer2"
-            style={{ width: ""+option2Ratio+"%" }}
+            style={{ width: "" + option2Ratio + "%" }}
           ></div>
         </div>
 

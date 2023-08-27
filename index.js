@@ -20,28 +20,42 @@ const io = require("socket.io")(server, {
     origin: "http://localhost:3000",
   },
 });
+
 io.on("connection", async (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
-  // const conn= new ConnectionTiktok();
-  // conn.connectTikTok();
-  // while (true) {
 
-  // await new Promise(resolve => setTimeout(resolve, 1000));
-
-  // if (conn.komen=="a"||conn.komen=="A"||conn.komen=="b"||conn.komen=="B"){
-  // console.log(conn.komen);
-  // console.log(process.env.USERNAME_LIVE)
   let tiktokLiveConnection = new WebcastPushConnection(
-    process.env.USERNAME_LIVE
+    process.env.USERNAME_LIVE,
+    {
+      processInitialData: false,
+      enableExtendedGiftInfo: true,
+      enableWebsocketUpgrade: true,
+      requestPollingIntervalMs: 2000,
+      clientParams: {
+        app_language: "en-US",
+        device_platform: "web",
+      },
+      requestHeaders: {
+        headerName: "headerValue",
+      },
+      websocketHeaders: {
+        headerName: "headerValue",
+      },
+      requestOptions: {
+        timeout: 10000,
+      },
+      websocketOptions: {
+        timeout: 10001,
+      },
+    }
   );
-  // Connect to the chat (await can be used as well)
-  tiktokLiveConnection
+  await tiktokLiveConnection
     .connect()
     .then((state) => {
       console.info(`Connected to roomId ${state.roomId}`);
     })
     .catch((err) => {
-      console.error("Failed to connect", err);
+      console.error("Failed to connect");
     });
 
   tiktokLiveConnection.on("chat", (data) => {
@@ -50,16 +64,11 @@ io.on("connection", async (socket) => {
     io.emit("message", { data: data.comment });
   });
 
-  // And here we receive gifts sent to the streamer
   tiktokLiveConnection.on("gift", (data) => {
     console.log(
       `${data.uniqueId} (userId:${data.userId}) sends ${data.giftId}`
     );
   });
-
-  // }
-
-  // }
 });
 
 app.get("/api/getAll", async function (req, res) {
